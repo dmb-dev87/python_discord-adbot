@@ -97,8 +97,8 @@ async def advertise():
     else:
         for i in channelstosend:
             try:
-                decodedmsg = base64.b64decode(config["userdata"].get('message'))
-                await ABT.get_channel(int(i)).send(decodedmsg.decode('utf-8'))
+                # decodedmsg = base64.b64decode(config["userdata"].get('message'))
+                await ABT.get_channel(int(i)).send(config["userdata"].get('message'))
                 print(f"{Fore.CYAN}[{Fore.MAGENTA}INFO{Fore.CYAN}]{Style.RESET_ALL} Successfully sent advertisment to channel id '{i}'!")
             except:
                 print(f"{Fore.CYAN}[{Fore.MAGENTA}INFO{Fore.CYAN}]{Style.RESET_ALL} Could not send to channel id '{i}', removing from list...")
