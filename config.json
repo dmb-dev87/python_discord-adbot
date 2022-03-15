@@ -1,8 +1,8 @@
 {
     "userdata": {
-        "token": "null",
-        "hours": "null",
-        "message": "null",
-        "channelids": "null"
+        "token": "",
+        "hours": "",
+        "message": "",
+        "channelids": []
     }
 }
