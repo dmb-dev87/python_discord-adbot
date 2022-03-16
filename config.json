@@ -1,8 +1,12 @@
 {
     "userdata": {
         "token": "",
-        "minutes": "",
-        "message": "",
-        "channelids": []
+        "minutes": "10",
+        "delay": "5",
+        "message": "This is added time delay",
+        "channelids": [
+            "952957306440663063",
+            "952958129098858537"
+        ]
     }
 }

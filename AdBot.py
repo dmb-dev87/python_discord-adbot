@@ -7,6 +7,7 @@ import json
 import asyncio
 import base64
 import os
+import time
 import requests
 from requests.structures import CaseInsensitiveDict
 import ctypes
@@ -43,6 +44,7 @@ with open('config.json', "rb") as infile:
     token = config["userdata"].get('token')
     channelids = config["userdata"].get('channelids')
     minutes = config["userdata"].get('minutes')
+    timedelay = config["userdata"].get('delay')
 
 if token == "null":
     os.system('cls')
@@ -62,8 +64,9 @@ if token == "null":
                 try:
                     minutes = int(input("Minutes: "))
                     oldmessagevalue = config["userdata"].get('message')
+                    oldtimedelay = config["userdata"].get('delay')
                     oldchannelidsvalue = config["userdata"].get('channelids')
-                    update = {"userdata": {"token": token,"minutes": minutes,"message": oldmessagevalue,"channelids": oldchannelidsvalue}}
+                    update = {"userdata": {"token": token,"minutes": minutes, "delay": oldtimedelay, "message": oldmessagevalue,"channelids": oldchannelidsvalue}}
                     config.update(update)
                     with open('config.json', "w") as jsfile:
                         json.dump(config, jsfile)
@@ -96,8 +99,9 @@ async def advertise():
         pass
     else:
         for i in channelstosend:
+            time.sleep(int(timedelay))
             try:
-                # decodedmsg = base64.b64decode(config["userdata"].get('message'))
+                # decodedmsg = base64.b64decode(config["userdata"].get('message'))                
                 await ABT.get_channel(int(i)).send(config["userdata"].get('message'))
                 print(f"{Fore.CYAN}[{Fore.MAGENTA}INFO{Fore.CYAN}]{Style.RESET_ALL} Successfully sent advertisment to channel id '{i}'!")
             except:
@@ -124,8 +128,9 @@ async def removechannel(ctx, *, id):
     oldmessagevalue = config["userdata"].get('message')
     oldchannelidsvalue = config["userdata"].get('channelids')
     oldminutesvalue = config["userdata"].get('minutes')
+    oldtimedelay = config["userdata"].get('delay')
     oldchannelidsvalue.remove(id)
-    update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"message": oldmessagevalue,"channelids": oldchannelidsvalue}}
+    update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"delay": oldtimedelay,"message": oldmessagevalue,"channelids": oldchannelidsvalue}}
     config.update(update)
     with open('config.json', "w") as jsfile:
         json.dump(config, jsfile)
@@ -140,15 +145,16 @@ async def addchannel(ctx, *, id):
     oldmessagevalue = config["userdata"].get('message')
     oldchannelidsvalue = config["userdata"].get('channelids')
     oldminutesvalue = config["userdata"].get('minutes')
+    oldtimedelay = config["userdata"].get('delay')
     if oldchannelidsvalue == "null":
-        update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"message": oldmessagevalue,"channelids": [id]}}
+        update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"delay": oldtimedelay,"message": oldmessagevalue,"channelids": [id]}}
         config.update(update)
         with open('config.json', "w") as jsfile:
             json.dump(config, jsfile)
             jsfile.close()
     else:
         oldchannelidsvalue.append(id)
-        update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"message": oldmessagevalue,"channelids": oldchannelidsvalue}}
+        update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"delay": oldtimedelay,"message": oldmessagevalue,"channelids": oldchannelidsvalue}}
         config.update(update)
         with open('config.json', "w") as jsfile:
             json.dump(config, jsfile)
@@ -163,7 +169,8 @@ async def setmsg(ctx, *, msg):
     oldtokenvalue = config["userdata"].get('token')
     oldchannelidsvalue = config["userdata"].get('channelids')
     oldminutesvalue = config["userdata"].get('minutes')
-    update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"message": encodedmsg,"channelids": oldchannelidsvalue}}
+    oldtimedelay = config["userdata"].get('delay')
+    update = {"userdata": {"token": oldtokenvalue,"minutes": oldminutesvalue,"delay": oldtimedelay,"message": encodedmsg,"channelids": oldchannelidsvalue}}
     config.update(update)
     with open('config.json', "w") as jsfile:
         json.dump(config, jsfile)
